@@ -31,4 +31,20 @@
 </div>
 </nav>
 
+<?php
+function sanitise_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+function outputFooter()
+{
+    date_default_timezone_set('Australia/Canberra');
+    echo "<footer>This page was last modified: " . date("F d Y H:i:s.", filemtime("index.php")) . "</footer>";
+}
+?>
+
 <script src="js/bootstrap.bundle.js"></script>

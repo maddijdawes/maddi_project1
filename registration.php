@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     //file name is now a unique ID based on time with IMG- precedding it, followed by the file type.
                     $fileNameNew = uniqid('IMG-', True) . "." . $fileActualExt;
                     //upload location
-                    $fileDestination = 'images/profilePic/' . $fileNameNew;
+                    $fileDestination = 'uploads/' . $fileNameNew;
                     //command to upload.
                     move_uploaded_file($fileTmpName, $fileDestination);
                     $sql = "INSERT INTO user (username, password, name, profilePic, accessLevel) VALUES (:newUsername, :newPassword, :newName, :newImage, 'User')";

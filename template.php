@@ -27,7 +27,11 @@
                 <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="contact.php">Contact Us</a>
+                <a class="nav-link" href="orderform.php">Our products</a>
+            <li class="nav-item">
+                <a class="nav-link" href="registration.php.php">Sign up</a>
+            <li class="nav-item">
+                <a class="nav-link" href="shopping.php">Shopping Cart</a>
             <li class="nav-item">
                 <a class="nav-link" href="profile.php">User Profile</a>
             </li>

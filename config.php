@@ -27,12 +27,15 @@ createTable($query_03, "Products");
 function addUser($username, $unhashedPassword, $name, $profilePic, $accessLevel) {
     global $conn;
     $hashedPassword = password_hash($unhashedPassword, PASSWORD_DEFAULT);
-    $sqlstmt = $conn->prepare("INSERT INTO user (username, password, name, profilePic, accessLevel) VALUES (:username, :hashedPassword, :name, :profilePic, :accessLevel)");
+    $sqlstmt = $conn->prepare("INSERT INTO user (username, password, name, profilePic, accessLevel, email, address, phone) VALUES (:username, :hashedPassword, :name, :profilePic, :accessLevel, :email, :address, :phone)");
     $sqlstmt->bindValue(':username', $username);
     $sqlstmt->bindValue(':hashedPassword', $hashedPassword);
     $sqlstmt->bindValue(':name', $name);
     $sqlstmt->bindValue(':profilePic', $profilePic);
     $sqlstmt->bindValue(':accessLevel', $accessLevel);
+    $sqlstmt->bindValue(':email', $email);
+    $sqlstmt->bindValue(':address', $address);
+    $sqlstmt->bindValue(':phone', $phone);
     if ($sqlstmt->execute()) {
        /// echo "<p style='color: greenyellow'>User: ".$username.": Table Created Successfully</p>";
 

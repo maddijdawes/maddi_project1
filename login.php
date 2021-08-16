@@ -15,6 +15,10 @@ if (isset($_POST['login'])) {
             $_SESSION["name"] = $row[4];
             $_SESSION["username"] = $row[2];
             $_SESSION['level'] = $row[6];
+            $_SESSION['email'] = $row[7];
+            $_SESSION['address'] = $row[8];
+            $_SESSION['phone'] = $row[9];
+
             header("location:profile.php");
         } else {
             echo "<div class='alert alert-danger'>Invalid username or password</div>";

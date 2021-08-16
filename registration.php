@@ -19,6 +19,9 @@
                 <!--Product List-->
                 <p>Please enter More Personal Details:</p>
                 <p>Name<input type="text" name="name" class="form-control" required="required"></p>
+                <p>Email<input type="text" name="email" class="form-control" required="required"></p>
+                <p>Address<input type="text" name="address" class="form-control" required="required"></p>
+                <p>Phone<input type="text" name="phone" class="form-control" required="required"></p>
                 <p>Profile Picture <input type="file" name="file" class="form-control" required="required"></p>
             </div>
         </div>
@@ -32,6 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = sanitise_data($_POST['username']);
     $password = sanitise_data($_POST['password']);
     $name = sanitise_data($_POST['name']);
+    $email = sanitise_data($_POST['email']);
+    $address = sanitise_data($_POST['address']);
+    $phone = sanitise_data($_POST['phone']);
 
 //check if user exists.
     $query = $conn->query("SELECT COUNT(*) FROM user WHERE username='$username'");

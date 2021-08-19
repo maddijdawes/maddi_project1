@@ -85,13 +85,13 @@ if($productCount == 0) {
     add_product('Tommy High-waist jeans', 'Jeans - High-waisted', '40', '130', 'highrise_jeans.jpg', 'dqiueu23');
     add_product('Halter Dress', 'Dress - Halterneck', '14', '60', 'halter_dress.jpg', '27djwi');
     add_product('Brown Dress', 'Dress - Halterneck', '74', '80', 'brown_dress.jpg', '65f4dry');
-    add_product('Black backless dress', 'Dress - Backless', '830', '70', 'backless_blackdress', '383902d');
+    add_product('Black backless dress', 'Dress - Backless', '830', '70', 'backless_blackdress.jpg', '383902d');
     add_product('Cream backless dress', 'Dress - Cream', '280', '90', 'cream_backlessdress.jpg', '38dnsks');
     add_product('White Heels', 'Shoes - Heels', '53', '80', 'white_heels.jpg', 'si2ol');
     add_product('Black Heels', 'Shoes - Heels', '379', '70', 'black_heels.jpg', 'sdkow257d');
     add_product('Drop silver Bellyring', 'Earring - Bellyring', '23', '27', 'drop_bellyring.jpg', '92jsp');
-    add_product('Silver Butterfly bellyring', 'Earring - Bellyring', '290', '23', 'butterfly_bellyring', 'wi9ks0');
-    add_product('Silver stud earring', 'Earring - stud', '291', '12', 'silver_studearrings', '920d' );
-    add_product('Double stud earrings', 'Earring - stud', '29', '13', 'double_studearrings', 'w90sapa0');
+    add_product('Silver Butterfly bellyring', 'Earring - Bellyring', '290', '23', 'butterfly_bellyring.jpg', 'wi9ks0');
+    add_product('Silver stud earring', 'Earring - stud', '291', '12', 'silver_studearrings.jpg', '920d' );
+    add_product('Double stud earrings', 'Earring - stud', '29', '13', 'double_studearrings.jpg', 'w90sapa0');
 }
 ?>

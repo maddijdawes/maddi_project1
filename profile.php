@@ -41,6 +41,7 @@ echo "<br>";
 echo "Home Address:". " ".$varaddress;
 echo "<br>";
 echo "Phone Number:". " ".$varphone;
+echo "<br>";
 
 
 echo "<img src='uploads/".$varpro."' width='500' height='600' >";

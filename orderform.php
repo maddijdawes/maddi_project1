@@ -66,7 +66,7 @@ if (!empty($_SESSION["shopping_cart"])) {
     $cart_count = count(array_keys($_SESSION["shopping_cart"]));
     ?>
     <div class="cart_div">
-        <a href="shopping.php"><img src="uploads/cart-icon.png"/> Shopping Cart<span>
+        <a href="shopping.php"><img src="uploads/cart-icon.png"/>Cart<span>
 <?php echo $cart_count; ?></span></a>
     </div>
     <?php

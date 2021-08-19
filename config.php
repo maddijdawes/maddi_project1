@@ -7,7 +7,7 @@ function createTable($sqlStmt, $tableName)
     global $conn;
     $stmt = $conn->prepare($sqlStmt);
     if ($stmt->execute()) {
-       echo "<p style='color: greenyellow'>".$tableName.": Table Created Successfully</p>";
+      // echo "<p style='color: greenyellow'>".$tableName.": Table Created Successfully</p>";
 
     } else {
         echo "<p style='color: red'>".$tableName.": Table Created Successfully<?p>";
@@ -24,7 +24,7 @@ createTable($query_02, "Order_Details");
 $query_03 = file_get_contents("sql/create-products.sql");
 createTable($query_03, "Products");
 
-function addUser($username, $unhashedPassword, $name, $profilePic, $accessLevel) {
+function addUser($username, $unhashedPassword, $name, $profilePic, $accessLevel, $email, $address, $phone) {
     global $conn;
     $hashedPassword = password_hash($unhashedPassword, PASSWORD_DEFAULT);
     $sqlstmt = $conn->prepare("INSERT INTO user (username, password, name, profilePic, accessLevel, email, address, phone) VALUES (:username, :hashedPassword, :name, :profilePic, :accessLevel, :email, :address, :phone)");
@@ -51,9 +51,9 @@ $rowcount = $query->fetchArray();
 $userCount = $rowcount["count"];
 
 if ($userCount == 0 ){
-addUser("admin", "admin", "Administrator", "admin.jpg", "Administrator");
-addUser("user", "user", "User", "user.jpg", "User");
-addUser("maddi", "maddi", "Maddi", "maddi.jpg", "User");
+addUser("admin", "admin", "Administrator", "admin.jpg", "Administrator", "Admin email", "Admin address", "02838922");
+addUser("user", "user", "User", "user.jpg", "User", "User email", "User address", "20200201");
+addUser("maddi", "maddi", "Maddi", "maddi.jpg", "User", "Maddi's email", "Maddi's address", "02932299202");
 }
 
 function add_product($productName, $productCategory, $productQuantity, $productPrice, $productImage, $productCode) {

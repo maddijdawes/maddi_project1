@@ -16,6 +16,21 @@
 
 
 <?php
+date_default_timezone_set("Australia/Sydney");
+$status = "";
+if (isset($_POST['action']) && $_POST['action'] == "remove") {
+    if (!empty($_SESSION["shopping_cart"])) {
+        foreach ($_SESSION["shopping_cart"] as $key => $value) {
+            if ($_POST["code"] == $key) {
+                unset($_SESSION["shopping_cart"][$key]);
+                $status = "<div class='box' style='color:red;'>
+  Product is removed from your cart!</div>";
+            }
+            if (empty($_SESSION["shopping_cart"]))
+                unset($_SESSION["shopping_cart"]);
+        }
+    }
+}
 
 //This code runs when the quantity changes for a row
 if (isset($_POST['action']) && $_POST['action'] == "change") {
@@ -27,6 +42,11 @@ if (isset($_POST['action']) && $_POST['action'] == "change") {
     }
 }
 ?>
+
+<div class="message_box"style="margin:10px 0px;">
+    <?php echo $status;?>
+</div>
+
 
 <?php
 if (isset($_SESSION["shopping_cart"])) {
@@ -49,7 +69,12 @@ if (isset($_SESSION["shopping_cart"])) {
                     <img src='image/<?php echo $product["image"]; ?>' width="50" height="40"/>
                 </td>
                 <td>
-                    <?php echo $product["productName"]; ?>
+                    <?php echo $product["productName"]; ?> <br>
+                    <form method='post' action=''>
+                        <input type='hidden' name='code' value="<?php echo $product["code"]; ?>"/>
+                        <input type='hidden' name='action' value="remove"/>
+                        <button type='submit' class='remove'>Remove Item</button>
+                    </form>
                 </td>
                 <td>
                     <form method='post' action=''>
@@ -94,6 +119,27 @@ if (isset($_SESSION["shopping_cart"])) {
         </tr>
         </tbody>
     </table>
+    <form method="post">
+        <input type="submit" name="orderProducts" value="Order Now"/>
+    </form>
     <?php
 }
+
+if(isset($_POST['orderProducts'])) {
+// Writing the order to the database
+    $orderNumber ="ORDER".substr(md5(uniqid(mt_rand(),true)), 0, 8);
+    foreach($_SESSION["shopping_cart"]as$row) {
+        $customerID = $_SESSION["user_id"];
+        $productCode = $row['code'];
+        $quantity = $row['quantity'];
+        $orderDate =date("Y-m-d h:i:sa");
+
+// Write to the Db.
+        $conn->exec("INSERT INTO rder (orderCode,customerID, productCode, orderDate, quantity) VALUES('$orderNumber','$customerID','$productCode','$orderDate', '$quantity')");
+
+    }
+    $_SESSION["shopping_cart"] = [];
+}
 ?>
+
+

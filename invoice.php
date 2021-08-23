@@ -35,14 +35,6 @@ $prod4SubTotal = $prod4Quantity * $prod4ItemCost;
 $prod5SubTotal = $prod5Quantity * $prod5ItemCost;
 $invoiceTotal = $prod1SubTotal + $prod2SubTotal + $prod3SubTotal + $prod4SubTotal + $prod5SubTotal;
 
-//The code below sanitises code data to prevent XSS attacks
-function sanitise_data($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
 
 ?>
 <h1>Invoice</h1>

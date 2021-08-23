@@ -7,4 +7,5 @@ create table IF NOT exists rder
     productCode INTEGER,
     orderDate INTEGER,
     quantity INTEGER,
+    status TEXT,
 );

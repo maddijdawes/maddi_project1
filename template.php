@@ -21,22 +21,40 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-            <li class="nav-item">
-                <a class="nav-link" href="logout.php">Logout</a>
-            </li>
                 <a class="nav-link" href="index.php">Home</a>
             </li>
             <li class="nav-item">
+            </li>
+
+            <?php
+            //Will only show registration page if user is not logged in
+            if (!isset($_SESSION["username"])) { ?>
+            <li class="nav-item">
+                <a class="nav-link" href="registration.php">Sign up</a>
+            </li>
+            <?php
+            // Will not show the following pages if user is logged in
+            } else { ?>
+                <li class="nav-item">
                 <a class="nav-link" href="orderform.php">Our products</a>
-            <li class="nav-item">
-                <a class="nav-link" href="registration.php.php">Sign up</a>
-            <li class="nav-item">
+                </li>
+                <li class="nav-item">
                 <a class="nav-link" href="shopping.php">Shopping Cart</a>
+                </li>
             <li class="nav-item">
+                <a class="nav-link"href="invoices.php">Invoices</a>
+            </li>
                 <a class="nav-link" href="profile.php">User Profile</a>
             </li>
             </li>
+            <?php } ?>
         </ul>
+        <?php if (isset($_SESSION["name"])) {
+            echo "<div class='alert alert-success d-flex'><span>Welcome, ".$_SESSION["name"]."<br><a href='logout.php'>Logout</a></span></div>";
+        } else {
+            echo "<div class='alert alert-info d-flex'><a href='index.php'>Sign In</a>";
+        }
+        ?>
     </div>
 </div>
 </nav>

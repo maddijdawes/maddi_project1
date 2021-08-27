@@ -1,5 +1,5 @@
 <?php include "template.php";
-
+ob_start();
 /**
  * Shopping Cart.
  * Displays (and allows edits) of the items that the user has entered into their cart.
@@ -135,7 +135,7 @@ if(isset($_POST['orderProducts'])) {
         $orderDate =date("Y-m-d h:i:sa");
 
 // Write to the Db.
-        $conn->exec("INSERT INTO rder (orderCode,customerID, productCode, orderDate, quantity) VALUES('$orderNumber','$customerID','$productCode','$orderDate', '$quantity')");
+        $conn->exec("INSERT INTO rder (orderCode,customerID, productCode, orderDate, quantity, status) VALUES('$orderNumber','$customerID','$productCode','$orderDate', '$quantity', 'OPEN')");
 
     }
     $_SESSION["shopping_cart"] = [];

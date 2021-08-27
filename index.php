@@ -1,9 +1,24 @@
 <?php include "template.php"; ?>
 
 <title>Home Page</title>
-Home Page
+
 
 <h1 class='text-primary'>Welcome to our shopfront</h1>
+<?php
+echo "username: admin";
+echo "<br>";
+echo "password: admin";
+echo "<br>";
+echo "username: maddi";
+echo "<br>";
+echo "password: maddi";
+echo "<br>";
+echo "username: user";
+echo "<br>";
+echo "password: user";
+echo "<br>";
+echo "<br>";
+?>
 <?php if (!isset($_SESSION["username"])) : ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <div class="form-group">

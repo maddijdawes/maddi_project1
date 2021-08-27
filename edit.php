@@ -1,110 +1,126 @@
-<?php include "template.php"; ?>
 
+<?php include "template.php";
+/**
+ *  This is the user's profile page.
+ * It shows the Users details including picture, and a link to edit the details.
+ *
+ * @var SQLite3 $conn
+ */
+?>
+<title>Edit your Profile</title>
 
-<h1>Edit Profile</h1>
+<h1 class='text-primary'>Edit Your Profile</h1>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"  enctype="multipart/form-data">
-    <div class="container-fluid">
-        <div class="row">
+<?php
+if (isset($_SESSION["username"])) {
+    $userName = $_SESSION["username"];
+    $userId = $_SESSION["user_id"];
 
-            <div class="col-md-6">
-                <h2>Personal Details</h2>
+    $query = $conn->query("SELECT * FROM user WHERE username='$userName'");
+    $userData = $query->fetchArray();
+    $userName = $userData[1];
+    $password = $userData[2];
+    $name = $userData[3];
+    $profilePic = $userData[4];
+    $accessLevel = $userData[5];
+    $varemail = $userData[6];
+    $varaddress = $userData[7];
+    $varphone = $userData[8];
+} else {
+    header("Location:index.php");
+}
+?>
 
-                <p>Please your personal details:</p>
-                <p>First Name<input type="text" name="F_name"></p>
-                <p>Last Name<input type="text" name="L_name"></p>
-                <p>Address<input type="text" name="address"></p>
-                <p>Age<input type="text" name="age"></p>
-
-                <!-- Creates a button to upload files and submit information-->
-                <br>
-                <p>Profile Picture</p>
-
-                <input type="file"
-                       name="file">
-
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Username : <?php echo $userName; ?></h3>
+            <p> Name : <?php echo $name ?> </p>
+            <p> Email : <?php echo $varemail ?> </p>
+            <p> Address : <?php echo $varaddress ?> </p>
+            <p> Phone Number : <?php echo $varphone ?> </p>
+            <p> Access Level : <?php echo $accessLevel ?> </p>
+            <p>Profile Picture:</p>
+            <?php echo "<img src='uploads/" . $profilePic . "' width='100' height='100'>" ?>
+        </div>
+        <div class="col-md-6">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+                <p>Name: <input type="text" name="name" value="<?php echo $name ?>"></p>
+                <p>Email: <input type="text" name="email" value="<?php echo $varemail ?>"></p>
+                <p>Address: <input type="text" name="address" value="<?php echo $varaddress ?>"></p>
+                <p>Phone Number: <input type="text" name="phone" value="<?php echo $varphone ?>"></p>
+                <p>Access Level: <input type="text" name="accessLevel" value="<?php echo $accessLevel ?>"></p>
+                <p>Profile Picture: <input type="file" name ="file"></p>
+                <input type="submit" name="formSubmit" value="Submit">
+            </form>
         </div>
     </div>
-    <input type="submit" name="formSubmit" value="Submit">
-</form>
 </div>
 
-
-</form>
-
-<h1>Current information</h1>
 <?php
-require_once 'conn.php';
-//Whatever the user enters in the submission boxes will replace the data that is in the database
-$term = ($_SERVER["REQUEST_METHOD"]);
-$u1 = $_SESSION["user_id"];
-$query= $conn->query("UPDATE 'user' SET name='.$term.' WHERE user_id = '$u1'");
-$query= $conn->query("UPDATE 'user' SET username='.$term.' WHERE user_id = '$u1'");
-$query= $conn->query("UPDATE 'user' SET password='.$term.' WHERE user_id= '$u1'");
-$query= $conn->query("UPDATE 'user' SET address='.$term.' WHERE user_id = '$u1'");
+if ($_SERVER["REQUEST_METHOD"]== "POST") {
+    $newName = sanitise_data($_POST['name']);
+    $newEmail = sanitise_data($_POST['email']);
+    $newAddress = sanitise_data($_POST['address']);
+    $newPhone = sanitise_data($_POST['phone']);
+    $newAccessLevel = sanitise_data($_POST['accessLevel']);
 
+    $sql = "UPDATE user SET name = :newName, email = :newEmail, address = :newAddress, phone = :newPhone, accessLevel=:newAccessLevel WHERE username='$userName'";
+    $sqlStmt = $conn->prepare($sql);
+    $sqlStmt->bindValue(":newName", $newName);
+    $sqlStmt->bindValue(":newEmail", $newEmail);
+    $sqlStmt->bindValue(":newAddress", $newAddress);
+    $sqlStmt->bindValue(":newPhone", $newPhone);
+    if ($accessLevel == "Administrator") {
+        $sqlStmt->bindValue(":newAccessLevel", $newAccessLevel);
+    } else {
+        $sqlStmt->bindValue(":newAccessLevel", $accessLevel);
+    }
+    $sqlStmt->execute();
 
+// Update Profile picture
+    $file = $_FILES['file'];
 
-?>
-<?php
-// Selects all the information from the user table by the last entry
-$query=$conn->query("SELECT * FROM user ORDER BY user_id DESC LIMIT 1") or die("Failed to fetch row!");
-while ($data=$query->fetchArray()){
+//Variable Names
+    $fileName = $_FILES['file']['name'];
+    $fileTmpName = $_FILES['file']['tmp_name'];
+    $fileSize = $_FILES['file']['size'];
+    $fileError = $_FILES['file']['error'];
+    $fileType = $_FILES['file']['type'];
 
+//defining what type of file is allowed
+// We seperate the file, and obtain the end.
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
+//We ensure the end is allowable in our thing.
+    $allowed = array('jpg', 'jpeg', 'png', 'pdf');
 
-    $varuser = $data[1];
-    $NameFirst = $data[4];
-    $NameSecond = $data[5];
-    $Address = $data[6];
-    $Age = $data[7];
+    if (in_array($fileActualExt, $allowed)) {
+        if ($fileError === 0) {
+            //File is smaller than yadda.
+            if ($fileSize < 10000000000) {
+                //file name is now a unique ID based on time with IMG- precedding it, followed by the file type.
+                $fileNameNew = uniqid('IMG-', True) . "." . $fileActualExt;
+                //upload location
+                $fileDestination = 'images/profilePic/' . $fileNameNew;
+                //command to upload.
+                move_uploaded_file($fileTmpName, $fileDestination);
 
-//Prints the information on the webpage
-    echo "<br>";
-    echo "Your username:". " ". $varuser;
-    echo "<br>";
-    echo "Your First name:". " ". $NameFirst;
-    echo "<br>";
-    echo "Your Last name:". " ". $NameSecond;
-    echo "<br>";
-    echo "Your address:". " ". $Address;
-    echo "<br>";
-    echo "Your age:". " ". $Age;
-    echo "<br>";
+                $sql = "UPDATE user SET profilePic=:newFileName WHERE username='$userName'";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindValue(':newFileName', $fileNameNew);
+                $stmt->execute();
+                header("location:index.php");
+            } else {
+                echo "Your image is too big!";
+            }
+        } else {
+            echo "there was an error uploading your image!";
+        }
+    } else {
+        echo "You cannot upload files of this type!";
+    }
 
 }
 ?>
 
-<?php
-// Connects to the database and selects the picture from the image database to be displayed.
-require_once 'conn.php';
-$query = $conn->query("SELECT * FROM images") or die ("Failed to fetch row!");
-while ($data = $query->fetchArray()) {
-    $d1 = $data[1];
-}
-echo "Profile picture:";
-echo "<br>";
-echo "<img src='uploads/" . $d1 . "' width='100' height='100'>";
-
-
-
-?>
-
-<?php
-//The code below sanitises code data to prevent XSS attacks
-function sanitise_data($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-?>
-
-<script src="../../Downloads/Assessment_03_Starting_Template/Assessment_03_Starting_Template/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
-
-</body>
-</html>

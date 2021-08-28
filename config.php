@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+//Connects to database and creates tables
 $conn = new SQLite3("db/db_maddi") or die ("unable to open database");
 function createTable($sqlStmt, $tableName)
 {
@@ -24,6 +25,8 @@ createTable($query_02, "Order_Details");
 $query_03 = file_get_contents("sql/create-products.sql");
 createTable($query_03, "Products");
 
+
+//Function to add values into the user table, such as name, password and email
 function addUser($username, $unhashedPassword, $name, $profilePic, $accessLevel, $email, $address, $phone) {
     global $conn;
     $hashedPassword = password_hash($unhashedPassword, PASSWORD_DEFAULT);
@@ -45,7 +48,7 @@ function addUser($username, $unhashedPassword, $name, $profilePic, $accessLevel,
 
 }
 
-
+//Counts the amount of users in table and adds the user 'maddi', 'user', and administrator if the number is 0
 $query = $conn->query("SELECT COUNT(*) as count FROM user");
 $rowcount = $query->fetchArray();
 $userCount = $rowcount["count"];
@@ -55,7 +58,7 @@ addUser("admin", "admin", "Administrator", "admin.jpg", "Administrator", "Admin 
 addUser("user", "user", "User", "user.jpg", "User", "User email", "User address", "20200201");
 addUser("maddi", "maddi", "Maddi", "maddi.jpg", "User", "Maddi's email", "Maddi's address", "02932299202");
 }
-
+//Function to add values into the product table, such as price, image and code
 function add_product($productName, $productCategory, $productQuantity, $productPrice, $productImage, $productCode) {
     global$conn;
     $sqlstmt = $conn->prepare("INSERT INTO products (productName, category, quantity, price, image, code) VALUES (:name, :category, :quantity, :price, :image, :code)");

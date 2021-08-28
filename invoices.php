@@ -19,11 +19,13 @@
 if (empty($_GET["order"])) { // Showing the list of open order (case 1)
     echo "<h1 class='text-primary'>Invoices</h1>";
     echo "<h2 class='text-primary'>Choose your invoice number below.</h2>";
+    // If user is logged in and they are an admin, then they can view all orders from the 'rder' table
     if (isset($_SESSION["user_id"])) { // Case 1 or 3?
         if($_SESSION["level"] =="Administrator") {
             $query = $conn->query("SELECT orderCode FROM rder");
             $count = $conn->querySingle("SELECT orderCode FROM `rder`");
         } else {
+            // If user is logged in and their access level is 'user', then they can only view their open orders
             $userID = $_SESSION["user_id"];
             $query = $conn->query("SELECT orderCode FROM rder WHERE customerID='$userID' AND status='OPEN'");
             $count = $conn->querySingle("SELECT orderCode FROM `rder` WHERE customerID='$userID' AND status='OPEN'");
@@ -39,6 +41,7 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
             //Gets the unique order numbers from the extracted table above.
             $unique_orders = array_unique($orderCodesForUser);
             // Produce a list of links of the Orders for the user.
+            // Opens a new page for in invoices that displays the specific order that they clicked on
             foreach ($unique_orders as $order_ID) {
                 echo "<p><a href='invoices.php?order=" . $order_ID . "'>Order : " . $order_ID . "</a></p>";
             }
@@ -49,14 +52,17 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
         header("Location:index.php");
     }
 } else {// Case 2 - There is an order code in the URL
+    //Displays the user's order details, from what they purchased, the subtotal, quantity and price of the individual items
     $order_id = $_GET["order"];
     echo"<h1 class='text-primary'>Invoice -". $order_id ."</h1>";
     $query = $conn->query("SELECT p.productName, p.price, o.quantity, p.price*o.quantity as SubTotal, o.orderDate, o.status FROM rder o INNER JOIN products p on o.productCode = p.code WHERE orderCode='$order_id'");
 
     $total = 0;
+    //Page headers
     echo"<div class='container-fluid'><div class='row'><div class='col text-success'>Product Name</div><div class='col text-success'>Price</div><div class='col text-success'>Quantity</div><div class='col text-success'>Subtotal</div></div>";
     while($data = $query->fetchArray()) {
         echo"<div class='row'>";
+        //Collecting the data on from the order table and printing it on webpage
         $productName = $data[0];
         $price = $data[1];
         $quantity = $data[2];
@@ -75,6 +81,19 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
     echo"<div class='row'><div class='col'></div><div class='col'></div><div class='col display-4'>Total : $". $total ."</div></div>";
     echo"<div class='row'><div class='col'></div><div class='col'></div><div class='col'>". $orderDate ."</div></div>";
 
+}
+
+?>
+
+
+<?php
+//The code below sanitises code data to prevent XSS attacks
+function sanitise_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 ?>

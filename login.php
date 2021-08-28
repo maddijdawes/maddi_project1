@@ -1,11 +1,12 @@
 <?php
-
+//Connects back to config file
 require_once 'config.php';
 
+//If user has clicked login, then their username and password will be sanitised
 if (isset($_POST['login'])) {
     $username = sanitise_data($_POST['username']);
     $password = sanitise_data($_POST['password']);
-
+//Returns the number of rows in user table and selects where the username is congruent with the one given by the user when registering
     $query = $conn->query("SELECT COUNT(*) as count, * FROM `user` WHERE `username`='$username'");
     $row = $query->fetchArray();
     $count = $row['count'];
@@ -26,5 +27,16 @@ if (isset($_POST['login'])) {
     }
 }
 
+//The code below sanitises code data to prevent XSS attacks
+function sanitise_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
 ?>
+
 

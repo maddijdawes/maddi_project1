@@ -15,12 +15,12 @@
 $u1 = $_SESSION["user_id"];
 
 
-
+//Selects all information from user table where the user_id is congruent with the session variable
 $query=$conn->query("SELECT * FROM 'user' WHERE user_id = '$u1'") or die ("Failed to fetch row!");
 while ($data=$query->fetchArray())
 {
 /* fetch associative array */
-
+//Sets the data to its corresponding categories
     $varName = $data[1];
     $varuser = $data[3];
     $varpro = $data[4];
@@ -29,7 +29,7 @@ while ($data=$query->fetchArray())
     $varaddress = $data[7];
     $varphone = $data[8];
 }
-
+//Prints user information on webpage
 echo "Name:". " ".$varName;
 echo "<br>";
 echo "Username:". " ".$varuser;
@@ -44,8 +44,11 @@ echo "Phone Number:". " ".$varphone;
 echo "<br>";
 
 
+
 echo "<img src='uploads/".$varpro."' width='500' height='600' >";
 
 ?>
 </body>
 </html>
+
+

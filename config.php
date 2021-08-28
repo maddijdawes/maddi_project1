@@ -76,7 +76,7 @@ function add_product($productName, $productCategory, $productQuantity, $productP
     }
 }
 
-
+//Counts the amount of products in table and adds values if the number is 0
 $query= $conn->query("SELECT COUNT(*) as count FROM products");
 $rowCount = $query->fetchArray();
 $productCount = $rowCount["count"];

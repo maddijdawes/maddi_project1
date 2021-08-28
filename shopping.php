@@ -16,8 +16,10 @@ ob_start();
 
 
 <?php
+//Displays time/date on webpage
 date_default_timezone_set("Australia/Sydney");
 $status = "";
+// If button is pressed with the action to remove and the shopping cart variable isn't empty, then the variable will be unset and the user will be informed of the items removal
 if (isset($_POST['action']) && $_POST['action'] == "remove") {
     if (!empty($_SESSION["shopping_cart"])) {
         foreach ($_SESSION["shopping_cart"] as $key => $value) {
@@ -66,6 +68,7 @@ if (isset($_SESSION["shopping_cart"])) {
             ?>
             <tr>
                 <td>
+                    <!--Displays item image and the product name -->
                     <img src='image/<?php echo $product["image"]; ?>' width="50" height="40"/>
                 </td>
                 <td>
@@ -81,6 +84,7 @@ if (isset($_SESSION["shopping_cart"])) {
                         <input type='hidden' name='code' value="<?php echo $product["code"]; ?>"/>
                         <input type='hidden' name='action' value="change"/>
                         <select name='quantity' class='quantity' onChange="this.form.submit()">
+                            <!-- Displays item quantity with the option of decreasing or increasing-->
                             <option <?php if ($product["quantity"] == 1) echo "selected"; ?>
                                 value="1">1
                             </option>
@@ -109,6 +113,7 @@ if (isset($_SESSION["shopping_cart"])) {
                 </td>
             </tr>
             <?php
+            //Displays price total
             $total_price += ($product["price"] * $product["quantity"]);
         }
         ?>
@@ -120,6 +125,7 @@ if (isset($_SESSION["shopping_cart"])) {
         </tbody>
     </table>
     <form method="post">
+        <!--Order Now Button-->
         <input type="submit" name="orderProducts" value="Order Now"/>
     </form>
     <?php

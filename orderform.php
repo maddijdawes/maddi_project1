@@ -1,4 +1,4 @@
-
+<!-- Allow user to access webpages easily through a navigation bar-->
 <?php include "template.php";
 /**
  * @var SQLite3 $conn
@@ -15,6 +15,7 @@
 <?php
 
 $status = "";
+//If input 'code' is filled and isn't empty, all from products table will be selected
 if (isset($_POST['code']) && $_POST['code'] != "") {
     $code = $_POST['code'];
     $row = $conn->querySingle("SELECT * FROM products WHERE code='$code'", true);
@@ -30,7 +31,8 @@ if (isset($_POST['code']) && $_POST['code'] != "") {
             'quantity' => 1,
             'image' => $image)
     );
-
+//Product will be added to cart if session variable shopping cart is empty
+    //If the shopping cart already has identical item, message will appear telling the user they already have it in their cart
     if (empty($_SESSION["shopping_cart"])) {
         $_SESSION["shopping_cart"] = $cartArray;
         $status = "
@@ -62,6 +64,7 @@ if (isset($_POST['code']) && $_POST['code'] != "") {
 </div>
 
 <?php
+//Adds shopping cart icon and updates with each new item added
 if (!empty($_SESSION["shopping_cart"])) {
     $cart_count = count(array_keys($_SESSION["shopping_cart"]));
     ?>
@@ -83,7 +86,7 @@ while ($data=$query->fetchArray())
     $varimage = $data[7];
     $varcost= $data[6];
 }
-
+//Selects all from product table and displays the product name, image and price
 $result = $conn ->query("SELECT * FROM products");
 while ($row = $result->fetchArray()) {
     echo "<div class='product_wrapper'>
@@ -96,4 +99,17 @@ while ($row = $result->fetchArray()) {
     </form>
     </div>";
 }
+?>
+
+
+<?php
+//The code below sanitises code data to prevent XSS attacks
+function sanitise_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
 ?>

@@ -1,4 +1,4 @@
-
+<!-- Allow user to access webpages easily through a navigation bar-->
 <?php include "template.php";
 /**
  *  This is the user's profile page.
@@ -7,6 +7,7 @@
  * @var SQLite3 $conn
  */
 ?>
+<!-- Title reflects page contents-->
 <title>Edit your Profile</title>
 
 <h1 class='text-primary'>Edit Your Profile</h1>
@@ -34,6 +35,7 @@ if (isset($_SESSION["username"])) {
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
+            <!--Prints current user information on webpage-->
             <h3>Username : <?php echo $userName; ?></h3>
             <p> Name : <?php echo $name ?> </p>
             <p> Email : <?php echo $varemail ?> </p>
@@ -44,6 +46,8 @@ if (isset($_SESSION["username"])) {
             <?php echo "<img src='uploads/" . $profilePic . "' width='100' height='100'>" ?>
         </div>
         <div class="col-md-6">
+            <!-- Creates a button to upload files and submit information-->
+            <!--Then prints updated information onto webpage-->
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
                 <p>Name: <input type="text" name="name" value="<?php echo $name ?>"></p>
                 <p>Email: <input type="text" name="email" value="<?php echo $varemail ?>"></p>
@@ -58,6 +62,7 @@ if (isset($_SESSION["username"])) {
 </div>
 
 <?php
+//Code below sanitises data and prevents against XSS attacks
 if ($_SERVER["REQUEST_METHOD"]== "POST") {
     $newName = sanitise_data($_POST['name']);
     $newEmail = sanitise_data($_POST['email']);
@@ -65,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
     $newPhone = sanitise_data($_POST['phone']);
     $newAccessLevel = sanitise_data($_POST['accessLevel']);
 
+//Whatever the user enters in the submission boxes will replace the data that is in the database
     $sql = "UPDATE user SET name = :newName, email = :newEmail, address = :newAddress, phone = :newPhone, accessLevel=:newAccessLevel WHERE username='$userName'";
     $sqlStmt = $conn->prepare($sql);
     $sqlStmt->bindValue(":newName", $newName);
@@ -123,4 +129,3 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
 
 }
 ?>
-

@@ -5,6 +5,7 @@
 
 <h1 class='text-primary'>Welcome to our shopfront</h1>
 <?php
+// Prints the username and password onto the login page
 echo "username: admin";
 echo "<br>";
 echo "password: admin";
@@ -19,7 +20,10 @@ echo "password: user";
 echo "<br>";
 echo "<br>";
 ?>
-<?php if (!isset($_SESSION["username"])) : ?>
+
+<?php
+//If user is not logged in, a login button will appear prompting them to enter their username and password
+if (!isset($_SESSION["username"])) : ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <div class="form-group">
             <label>Username</label>
@@ -41,3 +45,6 @@ echo "<br>";
 </html>
 
 <?php include 'login.php'; ?>
+
+
+

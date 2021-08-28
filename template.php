@@ -19,6 +19,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
+        <!--Displays Home Page for everyone to see-->
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="index.php">Home</a>
@@ -49,7 +50,9 @@
             </li>
             <?php } ?>
         </ul>
-        <?php if (isset($_SESSION["name"])) {
+        <?php
+        //If user is logged in, webpage will display their name and the a button to logout. If user is not logged in, a sign in button will appear
+        if (isset($_SESSION["name"])) {
             echo "<div class='alert alert-success d-flex'><span>Welcome, ".$_SESSION["name"]."<br><a href='logout.php'>Logout</a></span></div>";
         } else {
             echo "<div class='alert alert-info d-flex'><a href='index.php'>Sign In</a>";
@@ -60,16 +63,11 @@
 </nav>
 
 <?php
-function sanitise_data($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+
 
 function outputFooter()
 {
+//The code below shows the last modified time and date on the webpage
     date_default_timezone_set('Australia/Canberra');
     echo "<footer>This page was last modified: " . date("F d Y H:i:s.", filemtime("index.php")) . "</footer>";
 }

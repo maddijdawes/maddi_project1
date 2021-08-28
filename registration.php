@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-6">
                 <h2>More Details</h2>
-                <!--Product List-->
+                <!--More user details-->
                 <p>Please enter More Personal Details:</p>
                 <p>Name<input type="text" name="name" class="form-control" required="required"></p>
                 <p>Email<input type="text" name="email" class="form-control" required="required"></p>
@@ -30,6 +30,7 @@
 </form>
 
 <?php
+// If a form is submitted, the data will be sanitised
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    Customer Details
     $username = sanitise_data($_POST['username']);
@@ -103,3 +104,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+
+
+<?php
+//The code below sanitises code data to prevent XSS attacks
+function sanitise_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+?>

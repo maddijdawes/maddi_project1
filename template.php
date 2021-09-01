@@ -42,6 +42,9 @@
                 <li class="nav-item">
                 <a class="nav-link" href="shopping.php">Shopping Cart</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link"href="contact.php">Contact Us</a>
+                </li>
             <li class="nav-item">
                 <a class="nav-link"href="invoices.php">Invoices</a>
             </li>

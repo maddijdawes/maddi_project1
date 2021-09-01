@@ -10,7 +10,7 @@ ob_start();
  * @var SQLite3 $conn
  */
 ?>
-<title>Shopping Cart</title>
+<title>Shopping Cart!</title>
 
 <link rel="stylesheet" href="css/orderForm.css">
 

@@ -9,7 +9,8 @@
         <th><a href="edit.php">Edit Profile</a></th>
     </tr>
 </table>
-
+</body>
+</html>
 
 <?php
 $u1 = $_SESSION["user_id"];
@@ -48,7 +49,51 @@ echo "<br>";
 echo "<img src='uploads/".$varpro."' width='500' height='600' >";
 
 ?>
-</body>
-</html>
+
+<?php
+$numberOfRowsReturned = $conn->querySingle("SELECT count(*) FROM messaging WHERE recipient='$u1'");
+
+if ($numberOfRowsReturned > 0) {
+    $messages = $conn->query("SELECT * FROM messaging WHERE recipient='$u1'");
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 text-success"><h2>From</h2></div>
+        <div class="col-md-4 text-success"><h2>Message</h2></div>
+        <div class="col-md-4 text-success"><h2>Date Sent</h2></div>
+    </div>
+
+<?php
+while($individual_message = $messages->fetchArray()) {
+    $sender = $individual_message[1];
+    $message = $individual_message[3];
+    $dateSubmitted = $individual_message[4];
+    $senderName = $conn->querySingle("SELECT username FROM user WHERE user_id='$sender'");
+
+    ?>
+    <divclass="row">
+    <divclass="col-md-4">
 
 
+    <?php
+    if (!$senderName) {
+        echo $sender;
+    } else {
+        echo $senderName;
+    }
+    ?>
+
+
+    </div>
+
+    <divclass="col-md-4"><?php echo $message;?></div>
+    <divclass="col-md-4"><?php echo $dateSubmitted;?></div>
+    </div>
+
+    <?php
+}
+
+?>
+<?php
+}
+?>

@@ -1,9 +1,9 @@
-create table IF NOT exists Message
+create table IF NOT EXISTS messaging
 (
-    message_id INTEGER NOT NULL
-        primary key autoincrement,
-                 username  TEXT,
-    user_id TEXT,
-    name TEXT,
-    accesslevel INTEGER
+    message_id    INTEGER not null
+    primary key autoincrement,
+    sender        TEXT,
+    recipient     int,
+    message       TEXT,
+    dateSubmitted DATETIME
 );

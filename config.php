@@ -19,11 +19,12 @@ function createTable($sqlStmt, $tableName)
 $query = file_get_contents("sql/create-user.sql");
 createTable($query, "User");
 $query_01 = file_get_contents("sql/create-message.sql");
-createTable($query_01, "Messaging");
+createTable($query_01, "messaging");
 $query_02 = file_get_contents("sql/create-order.sql");
 createTable($query_02, "Order_Details");
 $query_03 = file_get_contents("sql/create-products.sql");
 createTable($query_03, "Products");
+
 
 
 //Function to add values into the user table, such as name, password and email

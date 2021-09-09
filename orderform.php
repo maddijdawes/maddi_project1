@@ -9,7 +9,7 @@
 
 <link rel="stylesheet" href="css/orderForm.css">
 
-<h1 class="text-primary">Products</h1>
+<h1 class="text-primary">Products!</h1>
 
 
 <?php

@@ -1,16 +1,6 @@
 <?php include "template.php"; ?>
+
 <h1 class='text-primary'>Profile Page</h1>
-
-</head>
-<body>
-<table border="1" width="50%">
-    <tr>
-
-        <th><a href="edit.php">Edit Profile</a></th>
-    </tr>
-</table>
-</body>
-</html>
 
 <?php
 $u1 = $_SESSION["user_id"];
@@ -23,6 +13,7 @@ while ($data=$query->fetchArray())
 /* fetch associative array */
 //Sets the data to its corresponding categories
     $varName = $data[1];
+    $user_id = $data[0];
     $varuser = $data[3];
     $varpro = $data[4];
     $varaccess = $data[5];
@@ -50,6 +41,16 @@ echo "<img src='uploads/".$varpro."' width='500' height='600' >";
 
 ?>
 
+</head>
+<body>
+<table border="1" width="50%">
+    <tr>
+
+        <p><a href="edit.php?user_id=<?php echo $user_id ?>" title="Edit">Edit Profile</a></p>
+    </tr>
+</table>
+</body>
+</html>
 <?php
 $numberOfRowsReturned = $conn->querySingle("SELECT count(*) FROM messaging WHERE recipient='$u1'");
 

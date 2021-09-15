@@ -13,12 +13,16 @@
 <h1 class='text-primary'>Edit Your Profile</h1>
 
 <?php
-if (isset($_SESSION["username"])) {
-    $userName = $_SESSION["username"];
-    $userId = $_SESSION["user_id"];
 
-    $query = $conn->query("SELECT * FROM user WHERE username='$userName'");
+if (isset($_GET["user_id"])) {
+    $userToLoad = $_GET["user_id"];
+} else {
+    header("location:index.php");
+}
+
+$query = $conn->query("SELECT * FROM user WHERE user_id='$userToLoad'");
     $userData = $query->fetchArray();
+    $user_id = $userData[0];
     $userName = $userData[1];
     $password = $userData[2];
     $name = $userData[3];
@@ -27,9 +31,7 @@ if (isset($_SESSION["username"])) {
     $varemail = $userData[6];
     $varaddress = $userData[7];
     $varphone = $userData[8];
-} else {
-    header("Location:index.php");
-}
+
 ?>
 
 <div class="container-fluid">
@@ -48,8 +50,9 @@ if (isset($_SESSION["username"])) {
         <div class="col-md-6">
             <!-- Creates a button to upload files and submit information-->
             <!--Then prints updated information onto webpage-->
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
-                <p>Name: <input type="text" name="name" value="<?php echo $name ?>"></p>
+            <form action="edit.php?user_id=<?php echo $user_id ?>" method="post"
+                  enctype="multipart/form-data">
+            <p>Name: <input type="text" name="name" value="<?php echo $name ?>"></p>
                 <p>Email: <input type="text" name="email" value="<?php echo $varemail ?>"></p>
                 <p>Address: <input type="text" name="address" value="<?php echo $varaddress ?>"></p>
                 <p>Phone Number: <input type="text" name="phone" value="<?php echo $varphone ?>"></p>

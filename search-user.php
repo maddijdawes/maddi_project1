@@ -31,6 +31,7 @@ if (isset($_SESSION['level']) == "Administrator") {
         $results = $userSearch->fetchArray();
         $userNumberOfRows = $results[1];
         if ($userNumberOfRows > 0) {
+            $user_id = $results[1];
             $username = $results[2];
             $name = $results[4];
             $profilePic = $results[5];
@@ -47,7 +48,6 @@ if (isset($_SESSION['level']) == "Administrator") {
                         <p> Name : <?php echo $name ?> </p>
                         <p> Access Level : <?php echo $accessLevel ?> </p>
                         <p><a href="edit.php?user_id=<?php echo $user_id ?>" title="Edit">Edit Profile</a></p>
-                        <p><a href="remove-user.php?user_id=<?php echo $user_id ?>">Remove User</a></p>
                     </div>
 
 

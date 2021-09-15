@@ -52,6 +52,15 @@
             </li>
             </li>
             <?php } ?>
+
+            <?php if (isset($_SESSION["level"])) : ?>
+                <?php if ($_SESSION["level"] == "Administrator") : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search-user.php">Search Users</a>
+                    </li>
+                <?php endif; ?>
+            <?php endif; ?>
+
         </ul>
         <?php
         //If user is logged in, webpage will display their name and the a button to logout. If user is not logged in, a sign in button will appear

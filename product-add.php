@@ -85,14 +85,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $fileDestination = 'image/' . $fileNameNew;
                     //command to upload.
                     move_uploaded_file($fileTmpName, $fileDestination);
-                    $sql = "INSERT INTO products (productName, category, quantity, price, image, code) VALUES (:newProdName, :newProdCategory, :newProdQuantity, :newProdPrice, :newProdImage, :newProdCode)";
+                    $sql = "UPDATE products SET productName= :newProdName, category= :newProdCategory, quantity= :newProdQuantity, price= :newProdPrice, image= :newFileName, code= :newProdCode WHERE code='$prodCode'";
                     $stmt = $conn->prepare($sql);
-                    $stmt->bindValue(':newProdName', $prodName);
-                    $stmt->bindValue(':newProdCategory', $prodCategory);
-                    $stmt->bindValue(':newProdQuantity', $prodQuantity);
-                    $stmt->bindValue(':newProdPrice', $prodPrice);
-                    $stmt->bindValue(':newProdImage', $fileNameNew);
-                    $stmt->bindValue(':newProdCode', $prodCode);
+                    $stmt->bindValue(':newProdName', $newName);
+                    $stmt->bindValue(':newProdCategory', $newCategory);
+                    $stmt->bindValue(':newProdQuantity', $newQuantity);
+                    $stmt->bindValue(':newProdPrice', $newPrice);
+                    $stmt->bindValue(':newFileName', $fileNameNew);
+                    $stmt->bindValue(':newProdCode', $newCode);
                     $stmt->execute();
                     header("location:index.php");
                 } else {

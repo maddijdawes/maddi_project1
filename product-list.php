@@ -5,7 +5,8 @@
 <h1 class='text-primary'>Product List</h1>
 
 <?php
-$productList = $conn->query("SELECT productName, image FROM products");
+//Selects the name and image of every product in product table
+$productList = $conn->query("SELECT productName, image, code FROM products");
 ?>
 
 <div class="container-fluid">
@@ -16,7 +17,7 @@ $productList = $conn->query("SELECT productName, image FROM products");
         <div class="row">
             <div class="col-md-2">
                 <?php
-                echo '<img src="images/productImages/'.$productData[1].'" width="50" height="50">';
+                echo '<img src="image/'.$productData[1].'" width="100" height="100">';
                 ?>
             </div>
             <div class="col-md-4">
@@ -24,11 +25,11 @@ $productList = $conn->query("SELECT productName, image FROM products");
             </div>
             <div class="col-md-2">
                 <!--            edit button-->
-                Edit
+                <a href="product-edit.php?prodCode=<?php echo $productData[2]; ?>">Edit</a>
             </div>
             <div class="col-md-2">
                 <!--            delete button-->
-                Delete
+                <a href="product-remove.php?prodCode=<?php echo $productData[2]; ?>">Delete</a>
             </div>
         </div>
         <?php

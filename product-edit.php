@@ -6,6 +6,8 @@
  *
  * @var SQLite3 $conn
  */
+
+ob_start();
 ?>
 <!-- Title reflects page contents-->
 <title>Edit the product</title>
@@ -66,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
     $newPrice = sanitise_data($_POST['prodPrice']);
     $newCode = sanitise_data($_POST['prodCode']);
 
+
 // Update Profile picture
     $file = $_FILES['file'];
 
@@ -90,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
                 //file name is now a unique ID based on time with IMG- precedding it, followed by the file type.
                 $fileNameNew = uniqid('IMG-', True) . "." . $fileActualExt;
                 //upload location
-                $fileDestination = 'image' . $fileNameNew;
+                $fileDestination = 'image/' . $fileNameNew;
                 //command to upload.
                 move_uploaded_file($fileTmpName, $fileDestination);
                 $sql = "UPDATE products SET productName= :newProdName, category= :newProdCategory, quantity= :newProdQuantity, price= :newProdPrice, image= :newFileName, code= :newProdCode WHERE code='$prodCode'";
@@ -103,11 +106,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
                 $stmt->bindValue(':newProdCode', $newCode);
                 $stmt->execute();
 
-                $sql = "UPDATE user SET profilePic=:newFileName WHERE username='$userName'";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindValue(':newFileName', $fileNameNew);
-                $stmt->execute();
-                header("location:index.php");
+                header("location:product-list.php");
             } else {
                 echo "Your image is too big!";
             }
@@ -119,4 +118,17 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
     }
 
 }
+
+
+
+//The code below sanitises code data to prevent XSS attacks
+function sanitise_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+ob_end_flush();
 ?>

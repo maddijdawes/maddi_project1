@@ -62,6 +62,7 @@
                             <a class="dropdown-item" href="user-add.php">Add Users</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="product-add.php">Add Products</a>
+                            <a class="dropdown-item" href="product-list.php">Product list</a>
                         </ul>
                     </li>
 

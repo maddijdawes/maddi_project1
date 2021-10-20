@@ -6,6 +6,8 @@
  *
  * @var SQLite3 $conn
  */
+
+ob_start();
 ?>
 <!-- Title reflects page contents-->
 <title>Edit your Profile</title>
@@ -111,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
                 //file name is now a unique ID based on time with IMG- precedding it, followed by the file type.
                 $fileNameNew = uniqid('IMG-', True) . "." . $fileActualExt;
                 //upload location
-                $fileDestination = 'images/profilePic' . $fileNameNew;
+                $fileDestination = 'uploads/' . $fileNameNew;
                 //command to upload.
                 move_uploaded_file($fileTmpName, $fileDestination);
 
@@ -119,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
                 $stmt = $conn->prepare($sql);
                 $stmt->bindValue(':newFileName', $fileNameNew);
                 $stmt->execute();
-                header("location:index.php");
+                header("location:profile.php");
             } else {
                 echo "Your image is too big!";
             }
@@ -131,4 +133,17 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
     }
 
 }
+
+
+//The code below sanitises code data to prevent XSS attacks
+function sanitise_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+ob_end_flush();
+
 ?>

@@ -106,6 +106,8 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
 //We ensure the end is allowable in our thing.
     $allowed = array('jpg', 'jpeg', 'png', 'pdf');
 
+//This means that if the file does exist
+if ($_FILES["file"]["error"] == !4) {
     if (in_array($fileActualExt, $allowed)) {
         if ($fileError === 0) {
             //File is smaller than yadda.
@@ -131,7 +133,9 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
     } else {
         echo "You cannot upload files of this type!";
     }
-
+} else {
+        echo "No image uploaded";
+    }
 }
 
 

@@ -14,15 +14,16 @@ ob_start();
     <h1 class='text-primary'>Edit the product</h1>
 
 <?php
-
+//Checks if product code matches the given code; if not, user will be redirected to login page
 if (isset($_GET["prodCode"])) {
     $prodCode = $_GET["prodCode"];
 } else {
     header("location:index.php");
 }
-
+//Selects all information from products table where the product code is congruent with given code.
 $query = $conn->query("SELECT * FROM products WHERE code='$prodCode'");
 $prodData = $query->fetchArray();
+//Sets data to variables to distinguish their purpose
 $prodID = $prodData[0];
 $prodName = $prodData[2];
 $prodCategory = $prodData[3];
@@ -67,13 +68,14 @@ if ($_SERVER["REQUEST_METHOD"]== "POST") {
     $newPrice = sanitise_data($_POST['prodPrice']);
     $newCode = sanitise_data($_POST['prodCode']);
 
-
+//Updates product table for new information
     $sql = "UPDATE products SET productName= :newName, category= :newCategory, quantity= :newQuantity, price= :newPrice, image= :newFileName, code= :newCode WHERE code='$prodCode'";
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(':newName', $newName);
     $stmt->bindValue(':newCategory', $newCategory);
     $stmt->bindValue(':newQuantity', $newQuantity);
     $stmt->bindValue(':newPrice', $newPrice);
+    $stmt->bindValue(':newFileName', $fileNameNew);
     $stmt->bindValue(':newCode', $newCode);
     $stmt->execute();
 

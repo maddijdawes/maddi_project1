@@ -80,6 +80,7 @@ if (empty($_GET["order"])) { // Showing the list of open order (case 1)
 
     echo"<div class='row'><div class='col'></div><div class='col'></div><div class='col display-4'>Total : $". $total ."</div></div>";
     echo"<div class='row'><div class='col'></div><div class='col'></div><div class='col'>". $orderDate ."</div></div>";
+   //If admin is logged in, they can decide to close an order or leave it open
     if ($_SESSION["level"] == "Administrator") {
         if (!empty($_GET["status"])) {
             if ($_GET["status"]=="CLOSED") {

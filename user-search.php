@@ -18,12 +18,13 @@
 
 
 <?php
+//Checks if user is admin. If they are, the amount of users in the user table is counted and displayed
 if (isset($_SESSION['level']) == "Administrator") {
     $userCount = $conn->query("SELECT count(*) FROM user");
     $results = $userCount->fetchArray();
     $userCountNumber = $results[0];
     echo "<br>The number of users is :" . $userCountNumber . "</br>";
-
+//If search button is pressed, the the database will select the username that matches the one that was entered.
     if (isset($_POST['search'])) {
         $userToSearch = ($_POST['search-user']);
 
@@ -40,6 +41,7 @@ if (isset($_SESSION['level']) == "Administrator") {
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
+                        <!--Displays the user's information-->
                         <h3>Username : <?php echo $username; ?></h3>
                         <p>Profile Picture:</p>
                         <?php echo "<img src='images/profilePic/" . $profilePic . "' width='100' height='100'>" ?>
@@ -54,6 +56,7 @@ if (isset($_SESSION['level']) == "Administrator") {
                 </div>
             </div>
             <?php
+            //If username is not in user table, the admin will  be informed that the user does not exist
         } else {
             echo "No Users Found";
         }

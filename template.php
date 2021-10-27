@@ -52,9 +52,10 @@
             </li>
             </li>
             <?php } ?>
-
             <?php if (isset($_SESSION["level"])) : ?>
-                <?php if ($_SESSION["level"] == "Administrator") : ?>
+                <?php
+                //Checks if admin is logged in; if they are, will display the functions available only to the admin
+                if ($_SESSION["level"] == "Administrator") : ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administrator Functions</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

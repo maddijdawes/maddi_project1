@@ -11,6 +11,7 @@ if (isset($_POST['login'])) {
     $row = $query->fetchArray();
     $count = $row['count'];
     if ($count > 0) {
+        //  Checks if password is the same as the one given when registering. If it is, they will be redirected to profile page
         if (password_verify($password, $row['password'])) {
             $_SESSION["user_id"] = $row[1];
             $_SESSION["name"] = $row[4];

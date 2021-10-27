@@ -1,5 +1,7 @@
 
-<?php include "template.php"; ?>
+<?php
+//Displays navigation bar and page headers
+include "template.php"; ?>
 <title>Create New Product</title>
 <h1 class='text-primary'>Create New Product</h1>
 
@@ -18,6 +20,7 @@ $query = $conn->query("SELECT DISTINCT category FROM products");
                 <p>Category
                     <select name="prodCategory">
                         <?php
+                        //Allows for a drop down bar of different categories available
                         while ($row = $query->fetchArray()) {
                             echo '<option>'.$row[0].'</option>';
                         }
@@ -85,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $fileDestination = 'image/' . $fileNameNew;
                     //command to upload.
                     move_uploaded_file($fileTmpName, $fileDestination);
+                    //Updates new information into products and modify the existing records in the table
                     $sql = "UPDATE products SET productName= :newProdName, category= :newProdCategory, quantity= :newProdQuantity, price= :newProdPrice, image= :newFileName, code= :newProdCode WHERE code='$prodCode'";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindValue(':newProdName', $newName);

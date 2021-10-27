@@ -52,6 +52,7 @@ echo "<img src='uploads/".$varpro."' width='500' height='600' >";
 </body>
 </html>
 <?php
+//Prints messages from message table where the user id matches the current one
 $numberOfRowsReturned = $conn->querySingle("SELECT count(*) FROM messaging WHERE recipient='$u1'");
 
 if ($numberOfRowsReturned > 0) {
@@ -65,6 +66,7 @@ if ($numberOfRowsReturned > 0) {
     </div>
 
 <?php
+    //Displays the username as the sender on message table
 while($individual_message = $messages->fetchArray()) {
     $sender = $individual_message[1];
     $message = $individual_message[3];
@@ -77,6 +79,7 @@ while($individual_message = $messages->fetchArray()) {
 
 
     <?php
+    //If it can't display username, display user id instead
     if (!$senderName) {
         echo $sender;
     } else {

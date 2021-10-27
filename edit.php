@@ -15,15 +15,16 @@ ob_start();
 <h1 class='text-primary'>Edit Your Profile</h1>
 
 <?php
-
+//Checks if user is logged in. If not, they are redirected to login page
 if (isset($_GET["user_id"])) {
     $userToLoad = $_GET["user_id"];
 } else {
     header("location:index.php");
 }
-
+//Selects all information from user database where user id is the same as the person currently logged in
 $query = $conn->query("SELECT * FROM user WHERE user_id='$userToLoad'");
     $userData = $query->fetchArray();
+    //Setting the data from the user table as variables to distinguish their purpose
     $user_id = $userData[0];
     $userName = $userData[1];
     $password = $userData[2];

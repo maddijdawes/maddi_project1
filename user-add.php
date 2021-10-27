@@ -10,7 +10,7 @@ $query = $conn->query("SELECT DISTINCT accessLevel FROM user");
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
     <div class="container-fluid">
         <div class="row">
-            <!--Customer Details-->
+            <!--Prompts admin to enter new username and passowrd-->
 
             <div class="col-md-6">
                 <h2>Account Details</h2>
@@ -21,6 +21,7 @@ $query = $conn->query("SELECT DISTINCT accessLevel FROM user");
 <p>Access Level
     <select name="accessLevel">
         <?php
+        //Allows for a drop down bar of different access levels available
         while ($row = $query->fetchArray()) {
             echo '<option>'.$row[0].'</option>';
         }
@@ -95,6 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $fileDestination = 'uploads/' . $fileNameNew;
                     //command to upload.
                     move_uploaded_file($fileTmpName, $fileDestination);
+                    //Inserts the new user information into user table
                     $sql = "INSERT INTO user (username, password, name, profilePic, accessLevel) VALUES (:newUsername, :newPassword, :newName, :newImage, :newAccessLevel)";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindValue(':newUsername', $username);
